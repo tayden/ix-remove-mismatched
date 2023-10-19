@@ -17,8 +17,8 @@ def main(
     rgb_iiq_directory = root_dir / RGB_DIR_NAME
     nir_iiq_directory = root_dir / NIR_DIR_NAME
 
-    data = [{"name": p.name, "type": "RGB"} for p in rgb_iiq_directory.rglob("*.IIQ")] \
-           + [{"name": p.name, "type": "NIR"} for p in nir_iiq_directory.rglob("*.IIQ")]
+    data = [{"name": p.name, "type": "RGB", "path": p} for p in rgb_iiq_directory.rglob("*.IIQ")] \
+           + [{"name": p.name, "type": "NIR", "path": p} for p in nir_iiq_directory.rglob("*.IIQ")]
 
     df = pd.DataFrame(data)
 
@@ -36,18 +36,18 @@ def main(
 
     if len(rgb_to_remove) > 0:
         (rgb_iiq_directory / 'mismatched').mkdir(exist_ok=True)
-        for name in rgb_to_remove['name_rgb']:
-            path = rgb_iiq_directory / name
+        for path in rgb_to_remove['path_rgb']:
+            name = path.name
             path.rename(rgb_iiq_directory / 'mismatched' / name)
 
         print(f"Moved {len(rgb_to_remove)} RGB files to {rgb_iiq_directory / 'mismatched'}")
 
     if len(nir_to_remove) > 0:
         (nir_iiq_directory / 'mismatched').mkdir(exist_ok=True)
-        for name in nir_to_remove['name_nir']:
-            path = nir_iiq_directory / name
+        for path in nir_to_remove['path_nir']:
+            name = path.name
             path.rename(nir_iiq_directory / 'mismatched' / name)
-            
+
         print(f"Moved {len(nir_to_remove)} NIR files to {nir_iiq_directory / 'mismatched'}")
 
 
