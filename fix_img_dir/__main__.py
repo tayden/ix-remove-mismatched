@@ -50,6 +50,8 @@ def main(
 
         print(f"Moved {len(nir_to_remove)} NIR files to {nir_iiq_directory / 'mismatched'}")
 
+    print(f"RGB: {len(rgb_df)}, NIR: {len(nir_df)}")
+
 
 def cli():
     typer.run(main)
