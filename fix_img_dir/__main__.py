@@ -34,15 +34,21 @@ def main(
     nir_to_remove = matching_df[matching_df["name_rgb"].isna()]
     rgb_to_remove = matching_df[matching_df["name_nir"].isna()]
 
-    (rgb_iiq_directory / 'mismatched').mkdir(exist_ok=True)
-    for name in rgb_to_remove['name_rgb']:
-        path = rgb_iiq_directory / name
-        path.rename(rgb_iiq_directory / 'mismatched' / name)
+    if len(rgb_to_remove) > 0:
+        (rgb_iiq_directory / 'mismatched').mkdir(exist_ok=True)
+        for name in rgb_to_remove['name_rgb']:
+            path = rgb_iiq_directory / name
+            path.rename(rgb_iiq_directory / 'mismatched' / name)
 
-    (nir_iiq_directory / 'mismatched').mkdir(exist_ok=True)
-    for name in nir_to_remove['name_nir']:
-        path = nir_iiq_directory / name
-        path.rename(nir_iiq_directory / 'mismatched' / name)
+        print(f"Moved {len(rgb_to_remove)} RGB files to {rgb_iiq_directory / 'mismatched'}")
+
+    if len(nir_to_remove) > 0:
+        (nir_iiq_directory / 'mismatched').mkdir(exist_ok=True)
+        for name in nir_to_remove['name_nir']:
+            path = nir_iiq_directory / name
+            path.rename(nir_iiq_directory / 'mismatched' / name)
+            
+        print(f"Moved {len(nir_to_remove)} NIR files to {nir_iiq_directory / 'mismatched'}")
 
 
 def cli():
